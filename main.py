@@ -1,6 +1,7 @@
 import pygame
 import sys
 from Player import Player
+from Enemy import Enemy
 
 pygame.init()
 
@@ -22,9 +23,12 @@ pygame.display.set_caption("Mario Clone")
 def game_loop():
     print('ok')
     while True:
+        global enemy
+        enemy = Enemy()
         player = Player()
         while True:
             window.fill(BLACK)
+            enemy.update(window)
             print('o')
             
             for event in pygame.event.get():
