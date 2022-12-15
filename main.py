@@ -2,6 +2,7 @@ import pygame
 import sys
 from Player import Player
 from Enemy import Enemy
+from Fire import Fire
 
 pygame.init()
 
@@ -12,6 +13,8 @@ FPS = 20
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+
+ADD_NEW_FIRE_RATE = 25
 
 CLOCK = pygame.time.Clock()
 
@@ -25,10 +28,24 @@ def game_loop():
     while True:
         global enemy
         enemy = Enemy()
+        fire = Fire(enemy)
         player = Player()
+        add_new_fire_counter = 0
+        fires_list = []
         while True:
             window.fill(BLACK)
             enemy.update(window)
+            add_new_fire_counter += 1
+            
+            if add_new_fire_counter == ADD_NEW_FIRE_RATE:
+                add_new_fire_counter = 0
+                new_fire = Fire(enemy)
+                fires_list.append(new_fire)
+
+            for fire in fires_list:
+                if fire.fire_img_rect.left < 0:
+                    fires_list.remove(fire)
+                fire.update(window)                    
             print('o')
             
             for event in pygame.event.get():
