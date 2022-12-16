@@ -47,7 +47,7 @@ def game_loop():
         while True:
             window.fill(BLACK)
             check_level(SCORE)
-            enemy.update(window)
+            enemy.update(window, limit_top, limit_bottom)
             add_new_fire_counter += 1
 
             if add_new_fire_counter == ADD_NEW_FIRE_RATE:
@@ -86,14 +86,17 @@ def game_loop():
             score_font_rect = score_font.get_rect()
             score_font_rect.center = (200, score_font_rect.height/2)
             window.blit(score_font, score_font_rect)
-            
+
             level_font = font.render("Level: " + str(LEVEL), True, GREEN)
             level_font_rect = level_font.get_rect()
             level_font_rect.center = (500, score_font_rect.height/2)
             window.blit(level_font, level_font_rect)
             
-            
-            
+            top_score_font = font.render("Top Score: " + str(topscore.high_score), True, GREEN)
+            top_score_rect = top_score_font.get_rect()
+            top_score_rect.center = (800, score_font_rect.height/2)
+            window.blit(top_score_font, top_score_rect)
+
             limit_top.update(window)
             limit_bottom.update(window)
             player.update(window)
@@ -101,7 +104,7 @@ def game_loop():
             for fire in fires_list:
                 if fire.fire_img_rect.colliderect(player.player_img_rect):
                     game_over()
-                    
+
             if player.check_collision_limuits(limit_top, limit_bottom):
                 game_over()
 
@@ -110,6 +113,13 @@ def game_loop():
 
 
 def game_over():
+    topscore.top_score(SCORE)
+    font = pygame.font.SysFont('forte', 50)
+
+    game_over_font = font.render("Game over ! ", True, RED)
+    game_over_rect = game_over_font.get_rect()
+    game_over_rect.center = (500, 300)
+    window.blit(game_over_font, game_over_rect)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -121,11 +131,17 @@ def game_over():
                     sys.exit()
 
                 game_loop()
-            pygame.display.update()
+        pygame.display.update()
 
 
 def start_game():
     window.fill(BLACK)
+    font = pygame.font.SysFont('forte', 50)
+
+    game_title_font = font.render("Pygame", True, GREEN)
+    game_title_rect = game_title_font.get_rect()
+    game_title_rect.center = (500, 300)
+    window.blit(game_title_font, game_title_rect)
 
     while True:
         for event in pygame.event.get():
@@ -155,9 +171,9 @@ def check_level(SCORE):
         limit_bottom.y = 500
         LEVEL = 3
     elif SCORE > 30:
-        limit_top = 200
+        limit_top.y = 200
         limit_bottom.y = 400
         LEVEL = 4
-        
+
 
 start_game()
