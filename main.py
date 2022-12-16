@@ -4,6 +4,7 @@ from Player import Player
 from Enemy import Enemy
 from Fire import Fire
 from Topscore import Topscore
+from Limit import Limit
 
 pygame.init()
 
@@ -32,6 +33,8 @@ def game_loop():
     while True:
         global enemy
         enemy = Enemy()
+        limit_top = Limit(0, 0)
+        limit_bottom = Limit(0, 599)
         fire = Fire(enemy)
         player = Player()
         add_new_fire_counter = 0
@@ -43,7 +46,7 @@ def game_loop():
             window.fill(BLACK)
             enemy.update(window)
             add_new_fire_counter += 1
-            
+
             if add_new_fire_counter == ADD_NEW_FIRE_RATE:
                 add_new_fire_counter = 0
                 new_fire = Fire(enemy)
@@ -53,9 +56,9 @@ def game_loop():
                 if fire.fire_img_rect.left < 0:
                     fires_list.remove(fire)
                     SCORE += 1
-                fire.update(window)                    
+                fire.update(window)
             print('o')
-            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -67,7 +70,7 @@ def game_loop():
                     elif event.key == pygame.K_DOWN:
                         player.down = True
                         player.up = False
-                
+
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_UP:
                         player.up = False
@@ -75,24 +78,21 @@ def game_loop():
                     elif event.key == pygame.K_DOWN:
                         player.down = True
                         player.up = False
-                        
 
-             
             score_font = font.render("Score: " + str(SCORE), True, GREEN)
             score_font_rect = score_font.get_rect()
             score_font_rect.center = (200, score_font_rect.height/2)
             window.blit(score_font, score_font_rect)
-            
-                
+            limit_top.update(window)
+            limit_bottom.update(window)
             player.update(window)
-            
+
             for fire in fires_list:
                 if fire.fire_img_rect.colliderect(player.player_img_rect):
                     game_over()
-            
+
             pygame.display.update()
             CLOCK.tick(FPS)
-
 
 
 def game_over():
@@ -105,14 +105,14 @@ def game_over():
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                
+
                 game_loop()
             pygame.display.update()
 
 
 def start_game():
     window.fill(BLACK)
-    
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
