@@ -17,4 +17,14 @@ class Player:
             self.player_img_rect.top -= 10
         if self.down:
             self.player_img_rect.bottom += 10
+            
+            
+    def check_collision_limuits(self, limit_top, limit_bottom):
+        if self.player_img_rect.bottom > limit_bottom.y:
+            return True
+        
+        if self.player_img_rect.top < limit_top.y:
+            return True
+        
+        return False
         

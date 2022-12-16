@@ -33,7 +33,9 @@ def game_loop():
     while True:
         global enemy
         enemy = Enemy()
+        global limit_top
         limit_top = Limit(0, 0)
+        global limit_bottom
         limit_bottom = Limit(0, 599)
         fire = Fire(enemy)
         player = Player()
@@ -44,6 +46,7 @@ def game_loop():
         global HIGH_SCORE
         while True:
             window.fill(BLACK)
+            check_level(SCORE)
             enemy.update(window)
             add_new_fire_counter += 1
 
@@ -83,6 +86,14 @@ def game_loop():
             score_font_rect = score_font.get_rect()
             score_font_rect.center = (200, score_font_rect.height/2)
             window.blit(score_font, score_font_rect)
+            
+            level_font = font.render("Level: " + str(LEVEL), True, GREEN)
+            level_font_rect = level_font.get_rect()
+            level_font_rect.center = (500, score_font_rect.height/2)
+            window.blit(level_font, level_font_rect)
+            
+            
+            
             limit_top.update(window)
             limit_bottom.update(window)
             player.update(window)
@@ -90,6 +101,9 @@ def game_loop():
             for fire in fires_list:
                 if fire.fire_img_rect.colliderect(player.player_img_rect):
                     game_over()
+                    
+            if player.check_collision_limuits(limit_top, limit_bottom):
+                game_over()
 
             pygame.display.update()
             CLOCK.tick(FPS)
@@ -125,5 +139,25 @@ def start_game():
                 game_loop()
         pygame.display.update()
 
+
+def check_level(SCORE):
+    global LEVEL
+    global limit_top
+    global limit_bottom
+    if SCORE in range(0, 5):
+        LEVEL = 1
+    elif SCORE in range(6, 20):
+        limit_top.y = 50
+        limit_bottom.y = 550
+        LEVEL = 2
+    elif SCORE in range(20, 30):
+        limit_top.y = 100
+        limit_bottom.y = 500
+        LEVEL = 3
+    elif SCORE > 30:
+        limit_top = 200
+        limit_bottom.y = 400
+        LEVEL = 4
+        
 
 start_game()
