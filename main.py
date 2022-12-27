@@ -29,7 +29,6 @@ topscore = Topscore()
 
 
 def game_loop():
-    print('ok')
     while True:
         global enemy
         enemy = Enemy()
@@ -60,7 +59,6 @@ def game_loop():
                     fires_list.remove(fire)
                     SCORE += 1
                 fire.update(window)
-            print('o')
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -91,8 +89,9 @@ def game_loop():
             level_font_rect = level_font.get_rect()
             level_font_rect.center = (500, score_font_rect.height/2)
             window.blit(level_font, level_font_rect)
-            
-            top_score_font = font.render("Top Score: " + str(topscore.high_score), True, GREEN)
+
+            top_score_font = font.render(
+                "Top Score: " + str(topscore.high_score), True, GREEN)
             top_score_rect = top_score_font.get_rect()
             top_score_rect.center = (800, score_font_rect.height/2)
             window.blit(top_score_font, top_score_rect)

@@ -1,7 +1,6 @@
 class Topscore:
     def __init__(self):
         self.high_score = self.initialize_top_score()
-        print(self.high_score)
 
     def initialize_top_score(self):
         file = open("./topscore.txt", "r")
@@ -22,4 +21,3 @@ class Topscore:
         file = open("./topscore.txt", "w")
         file.write(str(self.high_score))
         file.close()
-        
