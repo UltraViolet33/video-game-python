@@ -22,7 +22,7 @@ CLOCK = pygame.time.Clock()
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
-pygame.display.set_caption("Mario Clone")
+pygame.display.set_caption("Basic Video Game")
 font = pygame.font.SysFont('forte', 20)
 
 topscore = Topscore()
@@ -118,7 +118,7 @@ def game_over():
 
     game_over_font = font.render("Game over ! ", True, RED)
     game_over_rect = game_over_font.get_rect()
-    game_over_rect.center = (500, 300)
+    game_over_rect.center = (600, 300)
     window.blit(game_over_font, game_over_rect)
     while True:
         for event in pygame.event.get():
@@ -138,9 +138,9 @@ def start_game():
     window.fill(BLACK)
     font = pygame.font.SysFont('forte', 50)
 
-    game_title_font = font.render("Pygame", True, GREEN)
+    game_title_font = font.render("Basic Game using Pygame", True, GREEN)
     game_title_rect = game_title_font.get_rect()
-    game_title_rect.center = (500, 300)
+    game_title_rect.center = (600, 300)
     window.blit(game_title_font, game_title_rect)
 
     while True:
